@@ -35,7 +35,8 @@ const activities: Activity[] = [
     title: 'Feeding For America',
     role: 'President',
     dateRange: 'March 2022 - Present',
-    description: 'Worked on supply chain management for volunteering organization meant to provide food for Americans in need...',
+    description:
+      'Worked on supply chain management for volunteering organization meant to provide food for Americans in need...',
     category: 'Volunteering',
   },
   // ... other activities
@@ -44,6 +45,11 @@ const activities: Activity[] = [
 const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => navigation.navigate('Creation')}>
+        <Text style={styles.addButtonText}>+</Text>
+      </TouchableOpacity>
       <TouchableOpacity
         style={styles.profileButton}
         onPress={() => navigation.navigate('Profile')}>
@@ -142,6 +148,28 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -40,
     left: 360,
+  },
+  addButton: {
+    position: 'absolute',
+    right: 165,
+    bottom: 3, // Adjust this value according to the height of your bottom tab bar
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#007AFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 8,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    zIndex: 1, // Add this line
+  },
+  addButtonText: {
+    fontSize: 24,
+    color: '#fff',
+    fontWeight: 'bold',
   },
   // other styles...
 });

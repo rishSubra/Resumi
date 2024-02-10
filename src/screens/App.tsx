@@ -6,6 +6,7 @@ import {withAuthenticator} from '@aws-amplify/ui-react-native';
 import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import CreationScreen from '../screens/CreationScreen';
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
@@ -15,6 +16,7 @@ const HomeStackScreen = () => (
   <HomeStack.Navigator screenOptions={{headerShown: false}}>
     <HomeStack.Screen name="Home" component={HomeScreen} />
     <HomeStack.Screen name="Profile" component={ProfileScreen} />
+    <HomeStack.Screen name="Creation" component={CreationScreen} />
   </HomeStack.Navigator>
 );
 
