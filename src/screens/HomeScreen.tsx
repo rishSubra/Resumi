@@ -6,6 +6,10 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+
+/**
+ * Type definition for an activity.
+ */
 type Activity = {
   title: string;
   role: string;
@@ -13,10 +17,16 @@ type Activity = {
   description: string;
   category: string;
 };
+
 import SignOutButton from '../components/SignOutButton'; // Update the path accordingly
 
 import {NavigationProp} from '@react-navigation/native';
 
+/**
+ * Function to get the color for a category.
+ * @param {string} category - The category to get the color for.
+ * @returns {string} The color for the category.
+ */
 const getCategoryColor = (category: string): string => {
   switch (category) {
     case 'Volunteering':
@@ -28,6 +38,10 @@ const getCategoryColor = (category: string): string => {
       return 'grey';
   }
 };
+
+/**
+ * Array of activities.
+ */
 const activities: Activity[] = [
   {
     title: 'Feeding For America',
@@ -40,6 +54,12 @@ const activities: Activity[] = [
   // ... other activities
 ];
 
+/**
+ * HomeScreen component.
+ * @param {object} props - The props.
+ * @param {NavigationProp} props.navigation - The navigation prop.
+ * @returns {JSX.Element} The rendered JSX element.
+ */
 const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
   return (
     <View style={styles.container}>
@@ -79,6 +99,9 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
   );
 };
 
+/**
+ * Styles for the HomeScreen component.
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
