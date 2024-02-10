@@ -17,8 +17,6 @@ import SignOutButton from '../components/SignOutButton'; // Update the path acco
 
 import {NavigationProp} from '@react-navigation/native';
 
-
-
 const getCategoryColor = (category: string): string => {
   switch (category) {
     case 'Volunteering':
