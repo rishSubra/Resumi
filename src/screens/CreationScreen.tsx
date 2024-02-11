@@ -1,7 +1,12 @@
-
-
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -24,7 +29,7 @@ const ActivityCreationScreen: React.FC = () => {
   const [tagColor, setTagColor] = useState<string>('');
 
   const handleTagChange = (value: string) => {
-    setActivity({ ...activity, tag: value });
+    setActivity({...activity, tag: value});
 
     switch (value) {
       case 'Clubs':
@@ -49,14 +54,18 @@ const ActivityCreationScreen: React.FC = () => {
   };
 
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
-  const [currentDateField, setCurrentDateField] = useState<'start' | 'end' | null>(null);
+  const [currentDateField, setCurrentDateField] = useState<
+    'start' | 'end' | null
+  >(null);
 
   const handleSave = () => {
     console.log('Activity saved', activity);
   };
 
   const handleDateChange = (event: any, selectedDate: Date | undefined) => {
-    const currentDate = selectedDate || (currentDateField === 'start' ? activity.startDate : activity.endDate);
+    const currentDate =
+      selectedDate ||
+      (currentDateField === 'start' ? activity.startDate : activity.endDate);
     setShowDatePicker(false);
     setActivity({
       ...activity,
@@ -101,24 +110,38 @@ const ActivityCreationScreen: React.FC = () => {
           style={styles.input}
           placeholder="Name"
           value={activity.name}
-          onChangeText={(text) => setActivity({ ...activity, name: text })}
+          onChangeText={text => setActivity({...activity, name: text})}
         />
 
-        <TouchableOpacity onPress={() => showDatepicker('start')} style={styles.datePickerButton}>
+        <TouchableOpacity
+          onPress={() => showDatepicker('start')}
+          style={styles.datePickerButton}>
           <Text style={styles.datePickerText}>
-            {activity.startDate ? activity.startDate.toDateString() : 'Select Start Date'}
+            {activity.startDate
+              ? activity.startDate.toDateString()
+              : 'Select Start Date'}
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => showDatepicker('end')} style={styles.datePickerButton}>
+        <TouchableOpacity
+          onPress={() => showDatepicker('end')}
+          style={styles.datePickerButton}>
           <Text style={styles.datePickerText}>
-            {activity.endDate ? activity.endDate.toDateString() : 'Select End Date'}
+            {activity.endDate
+              ? activity.endDate.toDateString()
+              : 'Select End Date'}
           </Text>
         </TouchableOpacity>
 
         {showDatePicker && (
           <DateTimePicker
-            value={currentDateField === 'start' && activity.startDate ? activity.startDate : currentDateField === 'end' && activity.endDate ? activity.endDate : new Date()}
+            value={
+              currentDateField === 'start' && activity.startDate
+                ? activity.startDate
+                : currentDateField === 'end' && activity.endDate
+                ? activity.endDate
+                : new Date()
+            }
             mode="date"
             display="default"
             onChange={handleDateChange}
@@ -129,7 +152,7 @@ const ActivityCreationScreen: React.FC = () => {
           style={styles.textArea}
           placeholder="Description"
           value={activity.description}
-          onChangeText={(text) => setActivity({ ...activity, description: text })}
+          onChangeText={text => setActivity({...activity, description: text})}
           multiline={true}
           numberOfLines={4}
         />
@@ -137,7 +160,7 @@ const ActivityCreationScreen: React.FC = () => {
         <RNPickerSelect
           onValueChange={handleTagChange}
           items={[
-            { label: 'Clubs', value: 'Clubs' },
+            {label: 'Clubs', value: 'Clubs'},
             {label: 'Athletics', value: 'Athletics'},
             {label: 'Academics', value: 'Academics'},
             {label: 'Volunteering', value: 'Volunteering'},
@@ -145,12 +168,10 @@ const ActivityCreationScreen: React.FC = () => {
           ]}
           style={pickerSelectStyles}
           useNativeAndroidPickerStyle={false}
-          placeholder={{ label: 'Select a tag...', value: null }}
+          placeholder={{label: 'Select a tag...', value: null}}
         />
 
-        {tagColor && <View style={[styles.dot, { backgroundColor: tagColor }]} />}
-
-
+        {tagColor && <View style={[styles.dot, {backgroundColor: tagColor}]} />}
       </View>
 
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
