@@ -9,7 +9,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {useState} from 'react';
-import { Image } from 'react-native';
+import {Image} from 'react-native';
 
 /**
  * Type definition for an activity.
@@ -24,7 +24,7 @@ type Activity = {
 
 const tags = [
   {label: 'All', color: '#778899'},
-  {label: 'Clubs', color: '#FF3B30'},
+  {label: 'Clubs', color: '#BE2A2A'},
   {label: 'Academics', color: '#34C759'},
   {label: 'Athletics', color: '#007AFF'},
   {label: 'Volunteering', color: '#AF52DE'},
@@ -34,9 +34,9 @@ const tags = [
 // @ts-ignore
 const TagButton = ({label, color, onPress}) => (
   <TouchableOpacity
-    style={[styles.tag, {backgroundColor: color}]}
+    style={[styles.tag, {borderColor: 'gray', borderWidth: 1}]} // Added borderColor and borderWidth
     onPress={onPress}>
-    <Text style={styles.tagLabel}>{label}</Text>
+    <Text style={[styles.tagLabel, {color: color}]}>{label}</Text>
   </TouchableOpacity>
 );
 
@@ -54,14 +54,13 @@ const getCategoryColor = (category: string): string => {
     case 'Volunteering':
       return 'purple';
     case 'Clubs':
-      return 'red';
+      return '#BE2A2A';
     case 'Athletics':
       return 'blue';
     case 'Academics':
       return 'green';
     case 'Competitions':
       return 'orange';
-    // ... other categories with their colors
     default:
       return 'grey';
   }
@@ -117,10 +116,11 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
           />
         </TouchableOpacity>
 
-        <Text style={styles.headerTitle}>My Portfolio</Text>
+        <Text style={styles.headerTitle}>Rishab S.</Text>
 
         <SignOutButton />
       </View>
+      <Text style={styles.portfolioTitle}>Your Portfolio</Text>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -143,7 +143,10 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
             <View
               style={[
                 styles.categoryDot,
-                {backgroundColor: getCategoryColor(activity.category)},
+                {
+                  backgroundColor: getCategoryColor(activity.category),
+                  marginTop: 2,
+                },
               ]}
             />
           </View>
@@ -188,18 +191,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: 28,
+    fontWeight: '200',
+  },
+  portfolioTitle: {
+    fontWeight: '300',
+    fontSize: 32,
+    margin: 14,
   },
   activityCard: {
     margin: 15,
-    padding: 40,
+    padding: 25,
     backgroundColor: '#f0f0f0',
     borderRadius: 10,
+    borderColor: 'lightgray',
+    borderWidth: 1,
     //ios shadow
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
-    shadowRadius: 6,
-    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    shadowOpacity: 0.15,
     //android shadow
     elevation: 5,
     width: '90%',
@@ -257,11 +268,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 30,
+    borderColor: 'lightgray',
   },
   tagLabel: {
     color: 'white',
-    fontWeight: '700',
-    fontSize: 10, // Reduce this value to make the buttons less high
+    fontWeight: '500',
+    fontSize: 12, // Reduce this value to make the buttons less high
   },
 
   // other styles...

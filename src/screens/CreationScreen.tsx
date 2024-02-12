@@ -218,15 +218,16 @@ const styles = StyleSheet.create({
   },
   input: {
     borderBottomWidth: 1,
-    borderColor: '#000',
+    borderColor: 'gray',
     padding: 10,
     marginBottom: 20,
+    fontSize: 15,
   },
   textArea: {
     borderWidth: 1,
     borderRadius: 5,
     borderBottomWidth: 1,
-    borderColor: '#000',
+    borderColor: 'gray',
     padding: 10,
     marginBottom: 20,
     height: 100,
@@ -234,7 +235,7 @@ const styles = StyleSheet.create({
   },
   datePickerButton: {
     borderBottomWidth: 1,
-    borderColor: '#000',
+    borderColor: 'gray',
     padding: 10,
     marginBottom: 20,
   },
