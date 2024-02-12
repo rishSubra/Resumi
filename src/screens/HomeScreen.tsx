@@ -14,7 +14,7 @@ import {Image} from 'react-native';
 /**
  * Type definition for an activity.
  */
-type Activity = {
+export type Activity = {
   title: string;
   role: string;
   dateRange: string;
@@ -104,6 +104,9 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
   const handleTagPress = (tagLabel: string) => {
     setSelectedCategory(tagLabel);
   };
+  const handleEditPress = (activity: Activity, index: number) => {
+    navigation.navigate('EditActivity', {activity, index});
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -149,6 +152,12 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
                 },
               ]}
             />
+            <TouchableOpacity onPress={() => handleEditPress(activity, index)}>
+              <Image
+                source={require('../resources/edit-button.png')} // replace with your image path
+                style={{width: 25, height: 25, left: 280, bottom: 80}} // adjust the size as needed
+              />
+            </TouchableOpacity>
           </View>
         ))}
       </ScrollView>
