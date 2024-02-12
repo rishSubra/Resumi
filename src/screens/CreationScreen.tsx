@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {useNavigation} from '@react-navigation/native';
+import ActivitiesContext from '../contexts/ActivitiesContext';
 
 type Activity = {
   name: string;
@@ -58,10 +60,25 @@ const ActivityCreationScreen: React.FC = () => {
     'start' | 'end' | null
   >(null);
 
-  const handleSave = () => {
-    console.log('Activity saved', activity);
-  };
+  const navigation = useNavigation();
+  const {setActivities} = React.useContext(ActivitiesContext);
+  const [role, setRole] = useState<string>('');
 
+  const handleSave = () => {
+    const newActivity = {
+      title: activity.name, // title from input
+      role: role,
+      dateRange: `${activity.startDate?.toDateString()} - ${activity.endDate?.toDateString()}`, // date range from input
+      description: activity.description, // description from input
+      category: activity.tag, // category from input
+    };
+
+    // Add the new activity to the activities array
+    setActivities(prevActivities => [...prevActivities, newActivity]);
+
+    // Navigate back to the home screen
+    navigation.goBack();
+  };
   const handleDateChange = (event: any, selectedDate: Date | undefined) => {
     const currentDate =
       selectedDate ||
@@ -105,7 +122,12 @@ const ActivityCreationScreen: React.FC = () => {
     <ScrollView style={styles.container}>
       <View style={styles.form}>
         <Text style={styles.header}>Activity Details</Text>
-
+        {/*<TextInput*/}
+        {/*  style={styles.input}*/}
+        {/*  placeholder="Role"*/}
+        {/*  value={role}*/}
+        {/*  onChangeText={setRole}*/}
+        {/*/>*/}
         <TextInput
           style={styles.input}
           placeholder="Name"

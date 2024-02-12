@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -7,6 +7,15 @@ import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import CreationScreen from '../screens/CreationScreen';
+import ActivitiesContext from '../contexts/ActivitiesContext';
+
+type Activity = {
+  title: string;
+  role: string;
+  dateRange: string;
+  description: string;
+  category: string;
+};
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
@@ -20,14 +29,18 @@ const HomeStackScreen = () => (
   </HomeStack.Navigator>
 );
 
-const App = () => {
+const App: React.FC = () => {
+  const [activities, setActivities] = useState<Activity[]>([]);
+
   return (
-    <NavigationContainer>
-      <Tab.Navigator screenOptions={{headerShown: false}}>
-        <Tab.Screen name="Home" component={HomeStackScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <ActivitiesContext.Provider value={{activities, setActivities}}>
+      <NavigationContainer>
+        <Tab.Navigator screenOptions={{headerShown: false}}>
+          <Tab.Screen name="Home" component={HomeStackScreen} />
+          <Tab.Screen name="Settings" component={SettingsScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </ActivitiesContext.Provider>
   );
 };
 

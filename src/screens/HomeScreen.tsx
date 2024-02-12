@@ -1,4 +1,5 @@
 import React from 'react';
+import ActivitiesContext from '../contexts/ActivitiesContext';
 import {
   View,
   Text,
@@ -30,29 +31,34 @@ import {NavigationProp} from '@react-navigation/native';
 const getCategoryColor = (category: string): string => {
   switch (category) {
     case 'Volunteering':
-      return 'green';
+      return 'purple';
     case 'Clubs':
       return 'red';
+    case 'Athletics':
+      return 'blue';
+    case 'Academics':
+      return 'green';
+    case 'Competitions':
+      return 'orange';
     // ... other categories with their colors
     default:
       return 'grey';
   }
 };
-
 /**
  * Array of activities.
  */
-const activities: Activity[] = [
-  {
-    title: 'Feeding For America',
-    role: 'President',
-    dateRange: 'March 2022 - Present',
-    description:
-      'Worked on supply chain management for volunteering organization meant to provide food for Americans in need...',
-    category: 'Volunteering',
-  },
-  // ... other activities
-];
+// const activities: Activity[] = [
+//   {
+//     title: 'Feeding For America',
+//     role: 'President',
+//     dateRange: 'March 2022 - Present',
+//     description:
+//       'Worked on supply chain management for volunteering organization meant to provide food for Americans in need...',
+//     category: 'Volunteering',
+//   },
+//   // ... other activities
+// ];
 
 /**
  * HomeScreen component.
@@ -61,6 +67,7 @@ const activities: Activity[] = [
  * @returns {JSX.Element} The rendered JSX element.
  */
 const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
+  const {activities} = React.useContext(ActivitiesContext);
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -78,12 +85,10 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
       </TouchableOpacity>
       <Text style={styles.text}>Home Screen</Text>
       <Text style={styles.header}>Your Portfolio</Text>
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView contentContainerStyle={{paddingBottom: 20}}>
         {activities.map((activity, index) => (
           <View key={index} style={styles.activityCard}>
-            <Text style={styles.activityTitle}>
-              {activity.role} of {activity.title}
-            </Text>
+            <Text style={styles.activityTitle}>{activity.title}</Text>
             <Text style={styles.dateRange}>{activity.dateRange}</Text>
             <Text style={styles.description}>{activity.description}</Text>
             <View
@@ -98,7 +103,6 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
     </View>
   );
 };
-
 /**
  * Styles for the HomeScreen component.
  */
@@ -134,8 +138,8 @@ const styles = StyleSheet.create({
     top: 5,
   },
   activityCard: {
-    margin: 10,
-    padding: 15,
+    margin: 15,
+    padding: 40,
     backgroundColor: '#f0f0f0',
     borderRadius: 10,
     //ios shadow
@@ -145,6 +149,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     //android shadow
     elevation: 5,
+    width: '90%',
   },
   activityTitle: {
     fontSize: 18,

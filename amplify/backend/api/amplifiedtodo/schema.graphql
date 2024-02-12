@@ -1,6 +1,17 @@
-type Todo @model @auth(rules: [{allow: public}]) {
+enum Tag {
+  CLUBS
+  ATHLETICS
+  ACADEMICS
+  VOLUNTEERING
+  COMPETITIONS
+}
+
+type Activity @model @auth(rules: [{allow: public}]) {
   id: ID!
-  name: String!
+  activityName: String
+  startDate: String
+  endDate: String
   description: String
+  tag: Tag
 }
  

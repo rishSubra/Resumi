@@ -1,6 +1,28 @@
 /* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
+import { generateClient } from "aws-amplify/api";
+import { createActivity } from './graphql/mutations';
+
+const client = generateClient();
+
+
+export const saveActivity = async (activityName, startDate, endDate, description, tag) => {
+  const newActivity = await client.graphql({
+    query: createActivity,
+    variables: {
+      input: {
+        activityName,
+        startDate,
+        endDate,
+        description,
+        tag,
+      },
+    },
+  });
+
+  return newActivity;
+};
 
 export type CreateTodoInput = {
   id?: string | null,
