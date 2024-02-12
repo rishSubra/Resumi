@@ -6,7 +6,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  SafeAreaView,
 } from 'react-native';
+import {useState} from 'react';
 
 /**
  * Type definition for an activity.
@@ -18,6 +20,24 @@ type Activity = {
   description: string;
   category: string;
 };
+
+const tags = [
+  {label: 'All', color: '#778899'},
+  {label: 'Clubs', color: '#FF3B30'},
+  {label: 'Academics', color: '#34C759'},
+  {label: 'Athletics', color: '#007AFF'},
+  {label: 'Volunteering', color: '#AF52DE'},
+  {label: 'Competitions', color: '#FF9500'},
+];
+
+// @ts-ignore
+const TagButton = ({label, color, onPress}) => (
+  <TouchableOpacity
+    style={[styles.tag, {backgroundColor: color}]}
+    onPress={onPress}>
+    <Text style={styles.tagLabel}>{label}</Text>
+  </TouchableOpacity>
+);
 
 import SignOutButton from '../components/SignOutButton'; // Update the path accordingly
 
@@ -67,9 +87,25 @@ const getCategoryColor = (category: string): string => {
  * @returns {JSX.Element} The rendered JSX element.
  */
 const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
+  const [selectedCategory, setSelectedCategory] = useState('');
   const {activities} = React.useContext(ActivitiesContext);
+  const categories = [
+    'All',
+    'Volunteering',
+    'Clubs',
+    'Athletics',
+    'Academics',
+    'Competitions',
+  ]; // Add all your categories here
+  const filteredActivities =
+    selectedCategory === 'All'
+      ? activities
+      : activities.filter(activity => activity.category === selectedCategory);
+  const handleTagPress = (tagLabel: string) => {
+    setSelectedCategory(tagLabel);
+  };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => navigation.navigate('Creation')}>
@@ -83,10 +119,32 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
         </View>
         <Text style={styles.profileButtonText}>Profile</Text>
       </TouchableOpacity>
-      <Text style={styles.text}>Home Screen</Text>
+
       <Text style={styles.header}>Your Portfolio</Text>
+      {/*<Picker*/}
+      {/*  selectedValue={selectedCategory}*/}
+      {/*  onValueChange={(itemValue) => setSelectedCategory(itemValue)}*/}
+      {/*  style={{height: 30, width:200 , top:400, zIndex: 1}} // Add a specific height and width*/}
+      {/*>*/}
+      {/*  {categories.map((category, index) => (*/}
+      {/*    <Picker.Item key={index} label={category} value={category} />*/}
+      {/*  ))}*/}
+      {/*</Picker>*/}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.tagsContainer}>
+        {tags.map((tag, index) => (
+          <TagButton
+            key={index}
+            label={tag.label}
+            color={tag.color}
+            onPress={() => handleTagPress(tag.label)}
+          />
+        ))}
+      </ScrollView>
       <ScrollView contentContainerStyle={{paddingBottom: 20}}>
-        {activities.map((activity, index) => (
+        {filteredActivities.map((activity, index) => (
           <View key={index} style={styles.activityCard}>
             <Text style={styles.activityTitle}>{activity.title}</Text>
             <Text style={styles.dateRange}>{activity.dateRange}</Text>
@@ -100,7 +158,7 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
           </View>
         ))}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 /**
@@ -111,6 +169,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'column',
   },
   text: {
     fontSize: 24,
@@ -135,7 +194,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     padding: 20,
-    top: 5,
+    top: -15,
   },
   activityCard: {
     margin: 15,
@@ -197,6 +256,26 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  tagsContainer: {
+    flexDirection: 'row',
+    paddingVertical: 15,
+  },
+  tag: {
+    borderRadius: 15,
+    paddingVertical: 1,
+    paddingHorizontal: 15,
+    marginHorizontal: 5,
+    // flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 30,
+  },
+  tagLabel: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 10, // Reduce this value to make the buttons less high
+  },
+
   // other styles...
 });
 
