@@ -9,6 +9,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {useState} from 'react';
+import { Image } from 'react-native';
 
 /**
  * Type definition for an activity.
@@ -106,30 +107,20 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => navigation.navigate('Creation')}>
-        <Text style={styles.addButtonText}>+</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.profileButton}
-        onPress={() => navigation.navigate('Profile')}>
-        <View style={styles.signOutButton}>
-          <SignOutButton />
-        </View>
-        <Text style={styles.profileButtonText}>Profile</Text>
-      </TouchableOpacity>
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.profileButton}
+          onPress={() => navigation.navigate('Profile')}>
+          <Image
+            source={require('../resources/profile-picture.png')}
+            style={{resizeMode: 'stretch'}}
+          />
+        </TouchableOpacity>
 
-      <Text style={styles.header}>Your Portfolio</Text>
-      {/*<Picker*/}
-      {/*  selectedValue={selectedCategory}*/}
-      {/*  onValueChange={(itemValue) => setSelectedCategory(itemValue)}*/}
-      {/*  style={{height: 30, width:200 , top:400, zIndex: 1}} // Add a specific height and width*/}
-      {/*>*/}
-      {/*  {categories.map((category, index) => (*/}
-      {/*    <Picker.Item key={index} label={category} value={category} />*/}
-      {/*  ))}*/}
-      {/*</Picker>*/}
+        <Text style={styles.headerTitle}>My Portfolio</Text>
+
+        <SignOutButton />
+      </View>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -143,7 +134,7 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
           />
         ))}
       </ScrollView>
-      <ScrollView contentContainerStyle={{paddingBottom: 20}}>
+      <ScrollView style={{paddingBottom: 20, height: '90%'}}>
         {filteredActivities.map((activity, index) => (
           <View key={index} style={styles.activityCard}>
             <Text style={styles.activityTitle}>{activity.title}</Text>
@@ -158,6 +149,11 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
           </View>
         ))}
       </ScrollView>
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => navigation.navigate('Creation')}>
+        <Text style={styles.addButtonText}>+</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -167,22 +163,17 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     flexDirection: 'column',
   },
   text: {
     fontSize: 24,
   },
   profileButton: {
-    position: 'absolute',
-    top: 40,
-    left: 20,
     width: 60,
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#007AFF',
+    // backgroundColor: '#007AFF',
     borderRadius: 30,
     zIndex: 1,
   },
@@ -191,10 +182,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    padding: 20,
-    top: -15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+  },
+  headerTitle: {
+    fontSize: 18,
   },
   activityCard: {
     margin: 15,
@@ -229,15 +223,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     // ... other styles for the dot
   },
-  signOutButton: {
-    position: 'absolute',
-    top: -40,
-    left: 360,
-  },
   addButton: {
     position: 'absolute',
-    right: 165,
-    bottom: 3, // Adjust this value according to the height of your bottom tab bar
+    left: '42%',
+    top: '97%',
     width: 60,
     height: 60,
     borderRadius: 30,
@@ -249,7 +238,6 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    zIndex: 1, // Add this line
   },
   addButtonText: {
     fontSize: 24,

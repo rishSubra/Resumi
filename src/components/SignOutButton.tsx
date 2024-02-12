@@ -14,9 +14,9 @@ const SignOutButton = () => {
 
 const styles = StyleSheet.create({
   button: {
-    position: 'absolute',
-    right: 10,
-    top: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
     backgroundColor: '#000',
     borderRadius: 30,
     padding: 10,
