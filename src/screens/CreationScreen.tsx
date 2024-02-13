@@ -5,8 +5,8 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
-} from 'react-native';
+  ScrollView, Alert
+} from "react-native";
 import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {useNavigation} from '@react-navigation/native';
@@ -65,6 +65,25 @@ const ActivityCreationScreen: React.FC = () => {
   const [role, setRole] = useState<string>('');
 
   const handleSave = () => {
+    if (!activity.name) {
+      Alert.alert('Error', 'Please enter a name for the activity.');
+      return;
+    }
+
+    if (!activity.startDate || !activity.endDate) {
+      Alert.alert('Error', 'Please select the start and end dates.');
+      return;
+    }
+
+    if (!activity.description) {
+      Alert.alert('Error', 'Please enter a description for the activity.');
+      return;
+    }
+
+    if (!activity.tag) {
+      Alert.alert('Error', 'Please select a tag for the activity.');
+      return;
+    }
     const newActivity = {
       title: activity.name, // title from input
       role: role,
@@ -117,7 +136,6 @@ const ActivityCreationScreen: React.FC = () => {
       paddingRight: 30,
     },
   });
-
   return (
     <ScrollView style={styles.container}>
       <View style={styles.form}>

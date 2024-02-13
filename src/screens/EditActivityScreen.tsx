@@ -5,8 +5,8 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
-} from 'react-native';
+  ScrollView, Alert
+} from "react-native";
 import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ActivitiesContext from '../contexts/ActivitiesContext';
@@ -48,6 +48,7 @@ const EditActivityScreen: React.FC<
 > = ({route, navigation}) => {
   const {activity, index} = route.params;
   const {updateActivity} = useContext(ActivitiesContext);
+  const {activities, setActivities} = useContext(ActivitiesContext);
 
   const startDateString = activity.dateRange.split(' - ')[0];
   const endDateString = activity.dateRange.split(' - ')[1];
@@ -62,7 +63,29 @@ const EditActivityScreen: React.FC<
   );
   const [description, setDescription] = useState(activity.description);
   const [tag, setTag] = useState(activity.category);
-
+  const handleDelete = () => {
+    Alert.alert(
+      'Delete Activity',
+      'Are you sure you want to delete this activity?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => {
+            setActivities(prevActivities =>
+              prevActivities.filter((_, i) => i !== index),
+            );
+            navigation.goBack();
+          },
+          style: 'destructive',
+        },
+      ],
+      {cancelable: false},
+    );
+  };
   const handleSubmit = () => {
     updateActivity(index, {
       title: name,
@@ -125,9 +148,14 @@ const EditActivityScreen: React.FC<
           placeholder={{label: 'Select a tag...', value: null}}
           value={tag}
         />
-        <TouchableOpacity style={styles.saveButton} onPress={handleSubmit}>
-          <Text style={styles.saveButtonText}>Save</Text>
-        </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.saveButton} onPress={handleSubmit}>
+            <Text style={styles.saveButtonText}>Save</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
+            <Text style={styles.deleteButtonText}>Delete</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </ScrollView>
   );
@@ -164,15 +192,13 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
   saveButton: {
-    position: 'absolute',
-    top: 600,
-    width: 200,
+    marginTop: 200,
+    width: '45%', // Adjust as needed
     borderRadius: 30,
     backgroundColor: '#007AFF',
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'center',
   },
   saveButtonText: {
     color: '#fff',
@@ -188,6 +214,26 @@ const styles = StyleSheet.create({
     top: 5,
     fontSize: 18,
     justifyContent: 'center',
+  },
+  deleteButton: {
+    marginTop: 200,
+    width: '45%', // Adjust as needed
+    borderRadius: 30,
+    backgroundColor: 'red',
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  deleteButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 50, // Adjust as needed
+    marginTop: 20, // Adjust as needed
   },
 });
 

@@ -1,13 +1,35 @@
 import React, {useState} from 'react';
-import {View, TextInput, StyleSheet, SafeAreaView} from 'react-native';
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 
 const ProfileScreen: React.FC = () => {
-  const [fullName, setFullName] = useState<string>('');
-  const [classYear, setClassYear] = useState<string>('');
-  const [school, setSchool] = useState<string>('');
-  const [gradeLevel, setGradeLevel] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
+  // const [fullName, setFullName] = useState<string>('');
+  // const [classYear, setClassYear] = useState<string>('');
+  // const [school, setSchool] = useState<string>('');
+  // const [gradeLevel, setGradeLevel] = useState<string>('');
+  // const [email, setEmail] = useState<string>('');
+  const handleSave = () => {
+    // Handle save action here
+  };
 
+  const testData = {
+    fullName: 'Rishab Subramaniyan',
+    classYear: '2025',
+    school: 'Johns Creek',
+    gradeLevel: 'Junior',
+    email: 'rishabsubra@gmail.com',
+  };
+  const [fullName, setFullName] = useState<string>(testData.fullName);
+  const [classYear, setClassYear] = useState<string>(testData.classYear);
+  const [school, setSchool] = useState<string>(testData.school);
+  const [gradeLevel, setGradeLevel] = useState<string>(testData.gradeLevel);
+  const [email, setEmail] = useState<string>(testData.email);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -44,6 +66,9 @@ const ProfileScreen: React.FC = () => {
           placeholder="Email"
         />
       </View>
+      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+        <Text style={styles.saveButtonText}>Save</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -84,6 +109,22 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 20,
+  },
+  saveButton: {
+    position: 'absolute',
+    bottom: 20, // Position it at the bottom
+    width: 200, // Set the width of the button
+    borderRadius: 30, // Make the button roundish
+    backgroundColor: '#007AFF',
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center', // Center the button horizontally
+  },
+  saveButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

@@ -9,6 +9,7 @@ import {
   Modal,
   ScrollView,
   Dimensions,
+  Alert,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 
@@ -37,10 +38,27 @@ const MemoriesScreen: React.FC = () => {
   };
 
   const deleteImage = () => {
-    setImages(prevImages =>
-      prevImages.filter((_, i) => i !== selectedImageIndex),
+    Alert.alert(
+      'Delete Image',
+      'Are you sure you want to delete this image?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => {
+            setImages(prevImages =>
+              prevImages.filter((_, i) => i !== selectedImageIndex),
+            );
+            setIsModalVisible(false);
+          },
+          style: 'destructive',
+        },
+      ],
+      {cancelable: false},
     );
-    setIsModalVisible(false);
   };
 
   return (

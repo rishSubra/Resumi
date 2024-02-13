@@ -1,6 +1,6 @@
 import React, {useState, ReactNode} from 'react';
 
-type Activity = {
+export type Activity = {
   title: string;
   role: string;
   dateRange: string;
@@ -20,11 +20,28 @@ const ActivitiesContext = React.createContext<ActivitiesContextType>({
   updateActivity: () => {},
 });
 
+export const initialActivities: Activity[] = [
+  {
+    title: 'Tennis State Championships',
+    role: 'Role 1',
+    dateRange: 'Date Range 1',
+    description: 'Description 1',
+    category: 'Volunteering',
+  },
+  {
+    title: 'Activity 2',
+    role: 'Role 2',
+    dateRange: 'Date Range 2',
+    description: 'Description 2',
+    category: 'Category 2',
+  },
+  // Add more activities as needed
+];
+
 export const ActivitiesProvider: React.FC<{children?: ReactNode}> = ({
   children,
 }) => {
-  const [activities, setActivities] = useState<Activity[]>([]);
-
+  const [activities, setActivities] = useState<Activity[]>(initialActivities);
   const updateActivity = (index: number, updatedActivity: Activity) => {
     setActivities(prevActivities =>
       prevActivities.map((activity, i) =>

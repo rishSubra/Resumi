@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import {useState} from 'react';
 import {Image} from 'react-native';
+import SignOutButton from '../components/SignOutButton';
+import {NavigationProp} from '@react-navigation/native';
 
 /**
  * Type definition for an activity.
@@ -39,10 +41,6 @@ const TagButton = ({label, color, onPress}) => (
     <Text style={[styles.tagLabel, {color: color}]}>{label}</Text>
   </TouchableOpacity>
 );
-
-import SignOutButton from '../components/SignOutButton'; // Update the path accordingly
-
-import {NavigationProp} from '@react-navigation/native';
 
 /**
  * Function to get the color for a category.
