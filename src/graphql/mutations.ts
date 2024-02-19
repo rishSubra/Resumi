@@ -8,54 +8,63 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
-export const createTodo = /* GraphQL */ `mutation CreateTodo(
-  $input: CreateTodoInput!
-  $condition: ModelTodoConditionInput
+export const createActivity = /* GraphQL */ `mutation CreateActivity(
+  $input: CreateActivityInput!
+  $condition: ModelActivityConditionInput
 ) {
-  createTodo(input: $input, condition: $condition) {
+  createActivity(input: $input, condition: $condition) {
     id
-    name
+    activityName
+    startDate
+    endDate
     description
+    tag
     createdAt
     updatedAt
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.CreateTodoMutationVariables,
-  APITypes.CreateTodoMutation
+  APITypes.CreateActivityMutationVariables,
+  APITypes.CreateActivityMutation
 >;
-export const updateTodo = /* GraphQL */ `mutation UpdateTodo(
-  $input: UpdateTodoInput!
-  $condition: ModelTodoConditionInput
+export const updateActivity = /* GraphQL */ `mutation UpdateActivity(
+  $input: UpdateActivityInput!
+  $condition: ModelActivityConditionInput
 ) {
-  updateTodo(input: $input, condition: $condition) {
+  updateActivity(input: $input, condition: $condition) {
     id
-    name
+    activityName
+    startDate
+    endDate
     description
+    tag
     createdAt
     updatedAt
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.UpdateTodoMutationVariables,
-  APITypes.UpdateTodoMutation
+  APITypes.UpdateActivityMutationVariables,
+  APITypes.UpdateActivityMutation
 >;
-export const deleteTodo = /* GraphQL */ `mutation DeleteTodo(
-  $input: DeleteTodoInput!
-  $condition: ModelTodoConditionInput
+export const deleteActivity = /* GraphQL */ `mutation DeleteActivity(
+  $input: DeleteActivityInput!
+  $condition: ModelActivityConditionInput
 ) {
-  deleteTodo(input: $input, condition: $condition) {
+  deleteActivity(input: $input, condition: $condition) {
     id
-    name
+    activityName
+    startDate
+    endDate
     description
+    tag
     createdAt
     updatedAt
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.DeleteTodoMutationVariables,
-  APITypes.DeleteTodoMutation
+  APITypes.DeleteActivityMutationVariables,
+  APITypes.DeleteActivityMutation
 >;

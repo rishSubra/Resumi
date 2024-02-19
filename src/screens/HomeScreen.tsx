@@ -23,7 +23,7 @@ export type Activity = {
   description: string;
   category: string;
 };
-
+// Tags and corresponding colors set
 const tags = [
   {label: 'All', color: '#778899'},
   {label: 'Clubs', color: '#BE2A2A'},
@@ -63,20 +63,6 @@ const getCategoryColor = (category: string): string => {
       return 'grey';
   }
 };
-/**
- * Array of activities.
- */
-// const activities: Activity[] = [
-//   {
-//     title: 'Feeding For America',
-//     role: 'President',
-//     dateRange: 'March 2022 - Present',
-//     description:
-//       'Worked on supply chain management for volunteering organization meant to provide food for Americans in need...',
-//     category: 'Volunteering',
-//   },
-//   // ... other activities
-// ];
 
 /**
  * HomeScreen component.
@@ -94,7 +80,7 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
     'Athletics',
     'Academics',
     'Competitions',
-  ]; // Add all your categories here
+  ]; // Code for filtering activities
   const filteredActivities =
     selectedCategory === 'All'
       ? activities
@@ -152,8 +138,8 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
             />
             <TouchableOpacity onPress={() => handleEditPress(activity, index)}>
               <Image
-                source={require('../resources/edit-button.png')} // replace with your image path
-                style={{width: 25, height: 25, left: 280, bottom: 80}} // adjust the size as needed
+                source={require('../resources/edit-button.png')}
+                style={{width: 25, height: 25, left: 280, bottom: 80}}
               />
             </TouchableOpacity>
           </View>
@@ -213,12 +199,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: 'lightgray',
     borderWidth: 1,
-    //ios shadow
+
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 10,
     shadowOpacity: 0.15,
-    //android shadow
+
     elevation: 5,
     width: '90%',
   },
@@ -239,7 +225,7 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    // ... other styles for the dot
+
   },
   addButton: {
     position: 'absolute',
@@ -280,10 +266,10 @@ const styles = StyleSheet.create({
   tagLabel: {
     color: 'white',
     fontWeight: '500',
-    fontSize: 12, // Reduce this value to make the buttons less high
+    fontSize: 12,
   },
 
-  // other styles...
+
 });
 
 export default HomeScreen;

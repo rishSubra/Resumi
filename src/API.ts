@@ -1,41 +1,34 @@
 /* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { generateClient } from "aws-amplify/api";
-import { createActivity } from './graphql/mutations';
 
-const client = generateClient();
-
-
-export const saveActivity = async (activityName, startDate, endDate, description, tag) => {
-  const newActivity = await client.graphql({
-    query: createActivity,
-    variables: {
-      input: {
-        activityName,
-        startDate,
-        endDate,
-        description,
-        tag,
-      },
-    },
-  });
-
-  return newActivity;
-};
-
-export type CreateTodoInput = {
+export type CreateActivityInput = {
   id?: string | null,
-  name: string,
+  activityName?: string | null,
+  startDate?: string | null,
+  endDate?: string | null,
   description?: string | null,
+  tag?: Tag | null,
 };
 
-export type ModelTodoConditionInput = {
-  name?: ModelStringInput | null,
+export enum Tag {
+  CLUBS = "CLUBS",
+  ATHLETICS = "ATHLETICS",
+  ACADEMICS = "ACADEMICS",
+  VOLUNTEERING = "VOLUNTEERING",
+  COMPETITIONS = "COMPETITIONS",
+}
+
+
+export type ModelActivityConditionInput = {
+  activityName?: ModelStringInput | null,
+  startDate?: ModelStringInput | null,
+  endDate?: ModelStringInput | null,
   description?: ModelStringInput | null,
-  and?: Array< ModelTodoConditionInput | null > | null,
-  or?: Array< ModelTodoConditionInput | null > | null,
-  not?: ModelTodoConditionInput | null,
+  tag?: ModelTagInput | null,
+  and?: Array< ModelActivityConditionInput | null > | null,
+  or?: Array< ModelActivityConditionInput | null > | null,
+  not?: ModelActivityConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -78,32 +71,46 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type Todo = {
-  __typename: "Todo",
+export type ModelTagInput = {
+  eq?: Tag | null,
+  ne?: Tag | null,
+};
+
+export type Activity = {
+  __typename: "Activity",
   id: string,
-  name: string,
+  activityName?: string | null,
+  startDate?: string | null,
+  endDate?: string | null,
   description?: string | null,
+  tag?: Tag | null,
   createdAt: string,
   updatedAt: string,
 };
 
-export type UpdateTodoInput = {
+export type UpdateActivityInput = {
   id: string,
-  name?: string | null,
+  activityName?: string | null,
+  startDate?: string | null,
+  endDate?: string | null,
   description?: string | null,
+  tag?: Tag | null,
 };
 
-export type DeleteTodoInput = {
+export type DeleteActivityInput = {
   id: string,
 };
 
-export type ModelTodoFilterInput = {
+export type ModelActivityFilterInput = {
   id?: ModelIDInput | null,
-  name?: ModelStringInput | null,
+  activityName?: ModelStringInput | null,
+  startDate?: ModelStringInput | null,
+  endDate?: ModelStringInput | null,
   description?: ModelStringInput | null,
-  and?: Array< ModelTodoFilterInput | null > | null,
-  or?: Array< ModelTodoFilterInput | null > | null,
-  not?: ModelTodoFilterInput | null,
+  tag?: ModelTagInput | null,
+  and?: Array< ModelActivityFilterInput | null > | null,
+  or?: Array< ModelActivityFilterInput | null > | null,
+  not?: ModelActivityFilterInput | null,
 };
 
 export type ModelIDInput = {
@@ -122,18 +129,21 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export type ModelTodoConnection = {
-  __typename: "ModelTodoConnection",
-  items:  Array<Todo | null >,
+export type ModelActivityConnection = {
+  __typename: "ModelActivityConnection",
+  items:  Array<Activity | null >,
   nextToken?: string | null,
 };
 
-export type ModelSubscriptionTodoFilterInput = {
+export type ModelSubscriptionActivityFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  name?: ModelSubscriptionStringInput | null,
+  activityName?: ModelSubscriptionStringInput | null,
+  startDate?: ModelSubscriptionStringInput | null,
+  endDate?: ModelSubscriptionStringInput | null,
   description?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionTodoFilterInput | null > | null,
-  or?: Array< ModelSubscriptionTodoFilterInput | null > | null,
+  tag?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionActivityFilterInput | null > | null,
+  or?: Array< ModelSubscriptionActivityFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -166,83 +176,98 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
-export type CreateTodoMutationVariables = {
-  input: CreateTodoInput,
-  condition?: ModelTodoConditionInput | null,
+export type CreateActivityMutationVariables = {
+  input: CreateActivityInput,
+  condition?: ModelActivityConditionInput | null,
 };
 
-export type CreateTodoMutation = {
-  createTodo?:  {
-    __typename: "Todo",
+export type CreateActivityMutation = {
+  createActivity?:  {
+    __typename: "Activity",
     id: string,
-    name: string,
+    activityName?: string | null,
+    startDate?: string | null,
+    endDate?: string | null,
     description?: string | null,
+    tag?: Tag | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type UpdateTodoMutationVariables = {
-  input: UpdateTodoInput,
-  condition?: ModelTodoConditionInput | null,
+export type UpdateActivityMutationVariables = {
+  input: UpdateActivityInput,
+  condition?: ModelActivityConditionInput | null,
 };
 
-export type UpdateTodoMutation = {
-  updateTodo?:  {
-    __typename: "Todo",
+export type UpdateActivityMutation = {
+  updateActivity?:  {
+    __typename: "Activity",
     id: string,
-    name: string,
+    activityName?: string | null,
+    startDate?: string | null,
+    endDate?: string | null,
     description?: string | null,
+    tag?: Tag | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type DeleteTodoMutationVariables = {
-  input: DeleteTodoInput,
-  condition?: ModelTodoConditionInput | null,
+export type DeleteActivityMutationVariables = {
+  input: DeleteActivityInput,
+  condition?: ModelActivityConditionInput | null,
 };
 
-export type DeleteTodoMutation = {
-  deleteTodo?:  {
-    __typename: "Todo",
+export type DeleteActivityMutation = {
+  deleteActivity?:  {
+    __typename: "Activity",
     id: string,
-    name: string,
+    activityName?: string | null,
+    startDate?: string | null,
+    endDate?: string | null,
     description?: string | null,
+    tag?: Tag | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type GetTodoQueryVariables = {
+export type GetActivityQueryVariables = {
   id: string,
 };
 
-export type GetTodoQuery = {
-  getTodo?:  {
-    __typename: "Todo",
+export type GetActivityQuery = {
+  getActivity?:  {
+    __typename: "Activity",
     id: string,
-    name: string,
+    activityName?: string | null,
+    startDate?: string | null,
+    endDate?: string | null,
     description?: string | null,
+    tag?: Tag | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type ListTodosQueryVariables = {
-  filter?: ModelTodoFilterInput | null,
+export type ListActivitiesQueryVariables = {
+  filter?: ModelActivityFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListTodosQuery = {
-  listTodos?:  {
-    __typename: "ModelTodoConnection",
+export type ListActivitiesQuery = {
+  listActivities?:  {
+    __typename: "ModelActivityConnection",
     items:  Array< {
-      __typename: "Todo",
+      __typename: "Activity",
       id: string,
-      name: string,
+      activityName?: string | null,
+      startDate?: string | null,
+      endDate?: string | null,
       description?: string | null,
+      tag?: Tag | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -250,46 +275,55 @@ export type ListTodosQuery = {
   } | null,
 };
 
-export type OnCreateTodoSubscriptionVariables = {
-  filter?: ModelSubscriptionTodoFilterInput | null,
+export type OnCreateActivitySubscriptionVariables = {
+  filter?: ModelSubscriptionActivityFilterInput | null,
 };
 
-export type OnCreateTodoSubscription = {
-  onCreateTodo?:  {
-    __typename: "Todo",
+export type OnCreateActivitySubscription = {
+  onCreateActivity?:  {
+    __typename: "Activity",
     id: string,
-    name: string,
+    activityName?: string | null,
+    startDate?: string | null,
+    endDate?: string | null,
     description?: string | null,
+    tag?: Tag | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type OnUpdateTodoSubscriptionVariables = {
-  filter?: ModelSubscriptionTodoFilterInput | null,
+export type OnUpdateActivitySubscriptionVariables = {
+  filter?: ModelSubscriptionActivityFilterInput | null,
 };
 
-export type OnUpdateTodoSubscription = {
-  onUpdateTodo?:  {
-    __typename: "Todo",
+export type OnUpdateActivitySubscription = {
+  onUpdateActivity?:  {
+    __typename: "Activity",
     id: string,
-    name: string,
+    activityName?: string | null,
+    startDate?: string | null,
+    endDate?: string | null,
     description?: string | null,
+    tag?: Tag | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type OnDeleteTodoSubscriptionVariables = {
-  filter?: ModelSubscriptionTodoFilterInput | null,
+export type OnDeleteActivitySubscriptionVariables = {
+  filter?: ModelSubscriptionActivityFilterInput | null,
 };
 
-export type OnDeleteTodoSubscription = {
-  onDeleteTodo?:  {
-    __typename: "Todo",
+export type OnDeleteActivitySubscription = {
+  onDeleteActivity?:  {
+    __typename: "Activity",
     id: string,
-    name: string,
+    activityName?: string | null,
+    startDate?: string | null,
+    endDate?: string | null,
     description?: string | null,
+    tag?: Tag | null,
     createdAt: string,
     updatedAt: string,
   } | null,

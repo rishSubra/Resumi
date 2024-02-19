@@ -7,6 +7,14 @@
           "additionalAuthenticationProviders": [
             {
               "authenticationType": "AWS_IAM"
+            },
+            {
+              "apiKeyConfig": {
+                "apiKeyExpirationDate": "2025-02-14T19:45:54.961Z",
+                "apiKeyExpirationDays": 365,
+                "description": "FBLA Mobile App API Key"
+              },
+              "authenticationType": "API_KEY"
             }
           ],
           "defaultAuthentication": {

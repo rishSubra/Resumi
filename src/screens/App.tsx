@@ -36,11 +36,11 @@ export type RootStackParamList = {
   Creation: undefined;
   EditActivity: {activity: Activity; index: number};
 };
-
+//creating navigation constants
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator<RootStackParamList>();
 
-// Create a Home stack navigator
+// Create a Home stack navigator for redirects
 const HomeStackScreen = () => (
   <HomeStack.Navigator screenOptions={{headerShown: false}}>
     <HomeStack.Screen name="Home" component={HomeScreen} />
@@ -62,7 +62,7 @@ const App: React.FC = () => {
       return newActivities;
     });
   };
-
+  //navigation between tabs
   return (
     <ThemeProvider theme={theme} colorMode={colorMode}>
       <ActivitiesContext.Provider
@@ -71,7 +71,7 @@ const App: React.FC = () => {
           <Tab.Navigator screenOptions={{headerShown: false}}>
             <Tab.Screen name="Home" component={HomeStackScreen} />
             <Tab.Screen name="Memories" component={MemoriesScreen} />
-            <Tab.Screen name="Settings" component={SettingsScreen} />
+            {/*<Tab.Screen name="Settings" component={SettingsScreen} />*/}
           </Tab.Navigator>
         </NavigationContainer>
       </ActivitiesContext.Provider>
