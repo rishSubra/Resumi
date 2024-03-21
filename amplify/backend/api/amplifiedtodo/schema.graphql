@@ -9,9 +9,10 @@ enum Tag {
 type Activity @model @auth(rules: [{allow: public}]) {
   id: ID!
   activityName: String
-  startDate: String
-  endDate: String
-  description: String
   tag: Tag
+  role: String
+  startDate: String
+  description: String
+  endDate: String
 }
  

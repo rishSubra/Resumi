@@ -12,6 +12,9 @@ import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {useNavigation} from '@react-navigation/native';
 import ActivitiesContext from '../contexts/ActivitiesContext';
+import {generateClient} from 'aws-amplify/api';
+import {createActivity} from '../graphql/mutations';
+const apiClient = generateClient();
 
 type Activity = {
   name: string;
@@ -35,19 +38,19 @@ const ActivityCreationScreen: React.FC = () => {
     setActivity({...activity, tag: value});
 
     switch (value) {
-      case 'Clubs':
+      case 'CLUBS':
         setTagColor('red');
         break;
-      case 'Athletics':
+      case 'ATHLETICS':
         setTagColor('blue');
         break;
-      case 'Academics':
+      case 'ACADEMICS':
         setTagColor('green');
         break;
-      case 'Volunteering':
+      case 'VOLUNTEERING':
         setTagColor('purple');
         break;
-      case 'Competitions':
+      case 'COMPETITIONS':
         setTagColor('orange');
         break;
       default:
@@ -63,9 +66,10 @@ const ActivityCreationScreen: React.FC = () => {
 
   const navigation = useNavigation();
   const {setActivities} = React.useContext(ActivitiesContext);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [role, setRole] = useState<string>('');
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!activity.name) {
       Alert.alert('Error', 'Please enter a name for the activity.');
       return;
@@ -85,16 +89,43 @@ const ActivityCreationScreen: React.FC = () => {
       Alert.alert('Error', 'Please select a tag for the activity.');
       return;
     }
+    enum Tag {
+      CLUBS = 'CLUBS',
+      ATHLETICS = 'ATHLETICS',
+      ACADEMICS = 'ACADEMICS',
+      VOLUNTEERING = 'VOLUNTEERING',
+      COMPETITIONS = 'COMPETITIONS',
+    }
     const newActivity = {
-      title: activity.name, // title from input
+      activityName: activity.name, // title from input
       role: role,
-      dateRange: `${activity.startDate?.toDateString()} - ${activity.endDate?.toDateString()}`, // date range from input
+      startDate: activity.startDate?.toDateString(), // start date from input
+      endDate: activity.endDate?.toDateString(), // end date from input
       description: activity.description, // description from input
-      category: activity.tag, // category from input
+      tag: activity.tag.toUpperCase() as Tag,
     };
 
+    try {
+      console.log('newActivity:', newActivity);
+      await apiClient.graphql({
+        query: createActivity,
+        variables: {input: newActivity},
+      });
+
+      // Add the new activity to the activities array
+      setActivities(prevActivities => [...prevActivities, newActivity]);
+
+      // Navigate back to the home screen
+      navigation.goBack();
+    } catch (error) {
+      console.error('Error creating activity:', error);
+      Alert.alert(
+        'Error',
+        'There was an error creating the activity. Please try again.',
+      );
+    }
     // Add the new activity to the activities array
-    setActivities(prevActivities => [...prevActivities, newActivity]);
+    // setActivities(prevActivities => [...prevActivities, newActivity]);
 
     // Navigate back to the home screen
     navigation.goBack();

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ActivitiesContext from '../contexts/ActivitiesContext';
 import {
   View,
@@ -12,16 +12,19 @@ import {useState} from 'react';
 import {Image} from 'react-native';
 import SignOutButton from '../components/SignOutButton';
 import {NavigationProp} from '@react-navigation/native';
-
+import {generateClient} from 'aws-amplify/api';
+import {listActivities} from '..//graphql/queries';
+const apiClient = generateClient();
 /**
  * Type definition for an activity.
  */
 export type Activity = {
-  title: string;
+  activityName: string;
   role: string;
-  dateRange: string;
+  startDate: string;
+  endDate: string;
   description: string;
-  category: string;
+  tag: 'CLUBS' | 'ATHLETICS' | 'ACADEMICS' | 'VOLUNTEERING' | 'COMPETITIONS';
 };
 // Tags and corresponding colors set
 const tags = [
@@ -49,15 +52,15 @@ const TagButton = ({label, color, onPress}) => (
  */
 const getCategoryColor = (category: string): string => {
   switch (category) {
-    case 'Volunteering':
+    case 'VOLUNTEERING':
       return 'purple';
-    case 'Clubs':
+    case 'CLUBS':
       return '#BE2A2A';
-    case 'Athletics':
+    case 'ATHLETICS':
       return 'blue';
-    case 'Academics':
+    case 'ACADEMICS':
       return 'green';
-    case 'Competitions':
+    case 'COMPETITIONS':
       return 'orange';
     default:
       return 'grey';
@@ -72,22 +75,47 @@ const getCategoryColor = (category: string): string => {
  */
 const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
   const [selectedCategory, setSelectedCategory] = useState('');
-  const {activities} = React.useContext(ActivitiesContext);
-  const categories = [
-    'All',
-    'Volunteering',
-    'Clubs',
-    'Athletics',
-    'Academics',
-    'Competitions',
-  ]; // Code for filtering activities
-  const filteredActivities =
-    selectedCategory === 'All'
-      ? activities
-      : activities.filter(activity => activity.category === selectedCategory);
+  const {activities, setActivities} = React.useContext(ActivitiesContext);
+  useEffect(() => {
+    console.log('useEffect triggered'); // Log when the useEffect hook is triggered
+    const fetchActivities = async () => {
+      try {
+        console.log('Executing API call'); // Log before executing the API call
+        const result = await apiClient.graphql({query: listActivities});
+        console.log('API result:', result); // Log the API result
+        const activities = result.data.listActivities.items.map(item => ({
+          activityName: item.activityName || '',
+          role: item.endDate || '',
+          // dateRange: `${item.startDate || ''} - ${item.endDate || ''}`,
+          startDate: item.startDate || '',
+          endDate: item.startDate || '',
+          description: item.description || '',
+          tag: item.tag as
+            | 'CLUBS'
+            | 'ATHLETICS'
+            | 'ACADEMICS'
+            | 'VOLUNTEERING'
+            | 'COMPETITIONS',
+        }));
+        setActivities(activities);
+        console.log('Activities state:', activities); // Log the activities state
+      } catch (error) {
+        console.error('Error executing API call:', error); // Log any errors
+      }
+    };
+
+    fetchActivities();
+  }, [setActivities]);
+
+  console.log('Selected category:', selectedCategory); // Log the selected category
   const handleTagPress = (tagLabel: string) => {
-    setSelectedCategory(tagLabel);
+    setSelectedCategory(tagLabel.toUpperCase());
   };
+
+  const filteredActivities =
+    selectedCategory === 'ALL'
+      ? activities
+      : activities.filter(activity => activity.tag === selectedCategory);
   const handleEditPress = (activity: Activity, index: number) => {
     navigation.navigate('EditActivity', {activity, index});
   };
@@ -124,14 +152,17 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
       <ScrollView style={{paddingBottom: 20, height: '90%'}}>
         {filteredActivities.map((activity, index) => (
           <View key={index} style={styles.activityCard}>
-            <Text style={styles.activityTitle}>{activity.title}</Text>
-            <Text style={styles.dateRange}>{activity.dateRange}</Text>
+            <Text style={styles.activityTitle}>{activity.activityName}</Text>
+            <Text
+              style={
+                styles.dateRange
+              }>{`${activity.startDate} - ${activity.endDate}`}</Text>
             <Text style={styles.description}>{activity.description}</Text>
             <View
               style={[
                 styles.categoryDot,
                 {
-                  backgroundColor: getCategoryColor(activity.category),
+                  backgroundColor: getCategoryColor(activity.tag),
                   marginTop: 2,
                 },
               ]}
@@ -225,7 +256,6 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-
   },
   addButton: {
     position: 'absolute',
@@ -268,8 +298,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 12,
   },
-
-
 });
 
 export default HomeScreen;

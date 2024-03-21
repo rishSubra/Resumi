@@ -4,19 +4,18 @@
     "apiName": "amplifiedtodo",
     "serviceName": "AppSync",
     "defaultAuthType": {
-      "mode": "AMAZON_COGNITO_USER_POOLS",
-      "cognitoUserPoolId": "authamplifiedtodof2a23765"
+      "mode": "API_KEY",
+      "keyDescription": "api key description",
+      "expirationTime": 30
     },
-    "conflictResolution": {},
+    "conflictResolution": {
+      "defaultResolutionStrategy": {
+        "type": "NONE"
+      }
+    },
     "additionalAuthTypes": [
       {
         "mode": "AWS_IAM"
-      },
-      {
-        "mode": "API_KEY",
-        "expirationTime": 365,
-        "apiKeyExpirationDate": "2025-02-14T19:45:54.961Z",
-        "keyDescription": "FBLA Mobile App API Key"
       }
     ]
   }

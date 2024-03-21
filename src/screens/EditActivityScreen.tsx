@@ -5,8 +5,9 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  ScrollView, Alert
-} from "react-native";
+  ScrollView,
+  Alert,
+} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ActivitiesContext from '../contexts/ActivitiesContext';
@@ -48,12 +49,11 @@ const EditActivityScreen: React.FC<
 > = ({route, navigation}) => {
   const {activity, index} = route.params;
   const {updateActivity} = useContext(ActivitiesContext);
-  const {activities, setActivities} = useContext(ActivitiesContext);
 
-  const startDateString = activity.dateRange.split(' - ')[0];
-  const endDateString = activity.dateRange.split(' - ')[1];
+  const startDateString = activity.startDate;
+  const endDateString = activity.endDate;
 
-  const [name, setName] = useState(activity.title);
+  const [name, setName] = useState(activity.activityName);
   const [role, setRole] = useState(activity.role);
   const [startDate, setStartDate] = useState(
     isNaN(Date.parse(startDateString)) ? new Date() : new Date(startDateString),
@@ -62,7 +62,8 @@ const EditActivityScreen: React.FC<
     isNaN(Date.parse(endDateString)) ? new Date() : new Date(endDateString),
   );
   const [description, setDescription] = useState(activity.description);
-  const [tag, setTag] = useState(activity.category);
+  const [tag, setTag] = useState(activity.tag);
+
   const handleDelete = () => {
     Alert.alert(
       'Delete Activity',
@@ -86,13 +87,15 @@ const EditActivityScreen: React.FC<
       {cancelable: false},
     );
   };
+
   const handleSubmit = () => {
     updateActivity(index, {
-      title: name,
+      activityName: name,
       role,
-      dateRange: `${startDate.toDateString()} - ${endDate.toDateString()}`,
+      startDate: startDate.toDateString(),
+      endDate: endDate.toDateString(),
       description,
-      category: tag,
+      tag,
     });
     navigation.goBack();
   };
